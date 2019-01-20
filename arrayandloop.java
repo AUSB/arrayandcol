@@ -967,3 +967,501 @@ public class ShuffleList {
     }
 }
 
+
+package .lab1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Reviewing fundamental Java concepts: Methods, Utilities, Exceptions, Equals
+ * 
+ *
+ */
+public class Lab01 {
+
+	private Lab01() {
+		// empty by design
+	}
+
+	// Question 1
+
+	/**
+	 * Returns the minimum (most negative) value that an <code>int</code> can
+	 * represent.
+	 * 
+	 * @return the minimum (most negative) value that an int can represent
+	 */
+	public static int minInt() {
+		int a = Integer.MIN_VALUE;
+		int b = -a;
+		return b;
+	}
+
+	/**
+	 * Returns the minimum positive value greater than zero that a
+	 * <code>double</code> can represent.
+	 * 
+	 * @return the minimum positive value greater than zero that a double can
+	 *         represent
+	 */
+	public static double maxDouble() {
+		double a = Double.MAX_VALUE;
+
+		return a;
+	}
+
+	// Ques 2
+
+	/**
+	 * Removes the last two digits of a positive integer base 10 number that is
+	 * greater than <code>99</code>.
+	 * 
+	 * @param n a positive integer number greater than 99
+	 * @return the integer produced by removing the last two digits of n
+	 */
+	public static int removeLastTwoDigits(int n) {
+		int remlast = n / 10;
+		int rem2nd = remlast / 10;
+		return rem2nd;
+	}
+
+	/**
+	 * Returns the last one digit of a positive integer base 10 number that is
+	 * greater than <code>9</code>. If the last two digits start with a
+	 * <code>0</code> then only the last digit is returned.
+	 * 
+	 * @param n a positive integer number greater than 9
+	 * @return the last one digit of n
+	 */
+	public static int lastOneDigit(int n) {
+		int last = n % 10;
+		return last;
+	}
+
+	public static int lastTwoDigits(int n) {
+		int last = n % 10;
+		int remlastn = n / 10;
+		int second = remlastn % 10;
+		int las2Digs = second * 10 + last;
+		return las2Digs;
+	}
+
+	/**
+	 * Computes the age (in years) of a person using the following convoluted
+	 * algorithm:
+	 * 
+	 * <p>
+	 * <ul>
+	 * <li>start with the person's street <code>address</code>
+	 * <li>double it
+	 * <li>add 42 to the result from the previous step
+	 * <li>multiply the previous step by 50
+	 * <li>subtract the person's <code>birthYear</code> from the previous step
+	 * <li>subtract 50 from the previous step
+	 * <li>add the number of <code>birthdays</code> the person has had this year to
+	 * the previous step
+	 * <li>subtract 34 from the previous step
+	 * <li>the last two digits of the previous step is the age of the person
+	 * </ul>
+	 * 
+	 * <p>
+	 * This algorithm works only for people aged 1-99, and for addresses less than
+	 * approximately 20000000.
+	 * 
+	 * @param address   the person's street address number
+	 * @param birthYear the person's birth year
+	 * @param birthdays the number of birthdays the person has had this year (either
+	 *                  0 or 1)
+	 * @return the age of the person
+	 */
+	public static int yourAge(int address, int birthYear, int birthdays) {
+		double douaddr = address * 2;
+		double plusaddr = douaddr + 42;
+		double mulpladdr = plusaddr * 50;
+		double subir4Year = mulpladdr - birthYear;
+		double subfifty = subir4Year - 50;
+		double addbir4d = birthdays + subfifty;
+		double subthiry4 = addbir4d - 34;
+		int age = lastTwoDigits((int) subthiry4);
+		return age;
+	}
+
+	// Ques 3
+	/**
+	 * Computes the standard Rayleigh distribution probability density function (see
+	 * the lab document for the actual formula) with scale parameter.
+	 * 
+	 * @param x     a value
+	 * @param sigma scale parameter
+	 * @return the standard Rayleigh distribution probability density function
+	 *         evaluated at x
+	 */
+	public static double rayleigh(double x, int sigma) {
+		double squasigma = sigma * sigma;
+		double firstpa = x / squasigma;
+		double p = -(x * x) / (2 * squasigma);
+		double sencondpa = Math.exp(p);
+		double result = firstpa * sencondpa;
+		return result;
+	}
+
+	// Ques 4
+
+	/**
+	 * Computes the number of characters that are different in two strings of equal
+	 * length. The strings are compared character by character and the number of
+	 * characters that differ is returned. For example:
+	 * 
+	 * <pre>
+	 * Lab1.distance("talk", "talk")    returns  0
+	 * Lab1.distance("talk", "walk")    returns  1
+	 * Lab1.distance("well", "walk")    returns  2
+	 * 
+	 * </pre>
+	 * 
+	 * @param s a non-null string
+	 * @param t a non-null string
+	 * @return the number of characters that differ between s and t
+	 * @throws IllegalArgumentException if s and t have different lengths
+	 */
+	public static int distance(String s, String t) {
+		if (s.length() != t.length()) {
+			throw new IllegalArgumentException("s and t have different length");
+		}
+		int count = 0;
+		int j = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) != t.charAt(j)) {
+				count++;
+
+			}
+			j++;
+		}
+		return count;
+	}
+
+	// Ques 5
+	/**
+	 * Determine if the point <code>(x, y)</code> is strictly inside the r with
+	 * center <code>(0, 0)</code> and having radius equal to <code>1</code>. A point
+	 * on the perimeter of the circle is considered outside of the circle.
+	 * 
+	 * @param x the x-coordinate of the point
+	 * @param y the y-coordinate of the point
+	 * @return true if (x, y) is inside the unit circle, and false otherwise
+	 */
+	public static boolean isInside(double x, double y) {
+		boolean result = false;
+		double r = Math.sqrt(x * x + y * y);
+		if (r < 1)
+			result = true;
+
+		return result;
+	}
+
+	// Ques 6
+
+	/**
+	 * Returns true if year is a leap year and false otherwise.
+	 * 
+	 * <p>
+	 * A year is always a leap year if it is evenly divisible by 400; for all other
+	 * years, a year is a leap year if it is evenly divisible by 4 and not evenly
+	 * divisible by 100. For example:
+	 * 
+	 * <pre>
+	 * isLeapYear(2000)  returns  true   (2000 is divisible by 400)
+	 * isLeapYear(1900)  returns  false  (1900 is divisible by 4 and 100)
+	 * isLeapYear(2004)  returns  true   (2004 is divisible by 4 but not 100)
+	 * isLeapYear(2005)  returns  false  (2005 is not divisible by 4)
+	 * </pre>
+	 * 
+	 * @param year a year
+	 * @return true if year is a leap year and false otherwise
+	 * @throws IllegalArgumentException if year is less than 1582 (the year the
+	 *                                  Gregorian calendar was adopted)
+	 */
+	public static boolean isLeapYear(int year) {
+		boolean result = false;
+		if (year < 1582) {
+			throw new IllegalArgumentException("This year is less than 1582");
+		}
+		if (year % 400 == 0)
+			result = true;
+		else if (year % 4 == 0 && year % 100 == 0)
+			result = false;
+		else if (year % 4 == 0 && year % 100 != 0)
+			result = true;
+		return result;
+	}
+
+	// Ques 7
+	/**
+	 * Determine if a value <code>x</code> is strictly inside the given
+	 * <code>Range</code>. A value exactly at the minimum or maximum of the range is
+	 * considered outside of the range.
+	 * 
+	 * @param x     a value
+	 * @param range a Range to check
+	 * @return the value 1 if x is strictly inside the given Range, and 0 otherwise
+	 */
+	public static int contains(double x, Range range) {
+		int result = 0;
+		if (x > range.getMinimum() && x < range.getMaximum())
+			result = 1;
+		return result;
+	}
+
+	// Ques 8
+	/**
+	 * Compares two <code>Range</code> instances by their widths.
+	 * 
+	 * @param r1 a Range
+	 * @param r2 a second Range
+	 * @return the value 0 if both Range instances are equal; -1 if r1 is narrower
+	 *         than r2; and 1 if r1 is wider than r2
+	 */
+	public static int compareTo(Range r1, Range r2) {
+		int result = 0;
+		double range1 = r1.getMaximum() - r1.getMinimum();
+		double range2 = r2.getMaximum() - r2.getMinimum();
+		if (range1 < range2) {
+			result = -1;
+		} else if (range1 > range2) {
+			result = 1;
+		}
+		return result;
+	}
+
+	// Ques 9
+	/**
+	 * Returns a string representation of a <code>Range</code> that is different
+	 * than the one returned by <code>Range.toString</code>.
+	 * 
+	 * <p>
+	 * The returned string has the form <code>"minimum: x, maximum: y"</code> where
+	 * x is the minimum value of the range and y is the maximum value of the range.
+	 * 
+	 * @param r a Range instance
+	 * @return a string representation of the range
+	 */
+	public static String toString(Range r) {
+
+		String result = "minimum: " + r.getMinimum() + "," + " maximum: " + r.getMaximum();
+		return result;
+	}
+
+	// Ques 10
+
+	/**
+	 * Returns the character n positions from the end of the string s. For example,
+	 * suppose <code>s</code> is the string <code>"abcd"</code>; then:
+	 * 
+	 * <pre>
+	 * Lab1.charFromEnd(s, 0)  returns 'd'
+	 * Lab1.charFromEnd(s, 1)  returns 'c'
+	 * Lab1.charFromEnd(s, 2)  returns 'b'
+	 * Lab1.charFromEnd(s, 3)  returns 'a'
+	 * Lab1.charFromEnd(s, 4)  throws an IllegalArgumentException
+	 * Lab1.charFromEnd(s, -1) throws an IllegalArgumentException
+	 * </pre>
+	 * 
+	 * @param s a string of length 1 or greater
+	 * @param n the desired location of the character counting from the end of the
+	 *          string
+	 * @return the character located n positions from the end of the string
+	 * @throws IllegalArgumentException if the character located n positions from
+	 *                                  the end of the string does not exist
+	 */
+	public static char charFromEnd(String s, int n) {
+		char c = ' ';
+		if (n == s.length() || n == -1) {
+			throw new IllegalArgumentException(
+					"the character located n positions from the end of the string does not exist");
+		}
+		c = s.charAt(s.length() - n - 1);
+		return c;
+	}
+
+	// Ques 11
+	/**
+	 * Sorts a list of three integers so that the elements are in descending order
+	 * (largest to smallest). The size of the list remains unchanged.
+	 * 
+	 * @param t a list
+	 * @throws IllegalArgumentException if the size of list is not equal to 3
+	 */
+	public static void sort2(List<Integer> t) {
+		if (t.size() != 3) {
+			throw new IllegalArgumentException("the size of list is not equal to 3");
+		}
+		int a = t.get(0);
+		int b = t.get(1);
+		int c = t.get(2);
+		int max;
+		int min;
+		int max1 = Math.max(a, b);
+		int max2 = Math.max(a, c);
+		if (max1 >= max2) {
+			max = max1;
+		} else
+			max = max2;
+
+		int min1 = Math.min(a, b);
+		int min2 = Math.min(a, c);
+		if (min1 <= min2) {
+			min = min1;
+		} else
+			min = min2;
+		t.set(0, max);
+		t.set(2, min);
+
+	}
+
+	// Ques 12
+	/**
+	 * Returns the number of strings in the list t that are equal to the target
+	 * string.
+	 * 
+	 * @param t      the list to search
+	 * @param target the string to search for
+	 * @return the number of strings in the list t that are equal to target
+	 */
+	public static int frequency(List<String> t, String target) {
+		int count = 0;
+		for (int i = 0; i < t.size(); i++) {
+			if (t.get(i).equals(target)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	// Ques 13
+
+	/**
+	 * Sorts the elements of the list t so that the elements are in ascending order.
+	 * A precondition of this method is that t must be already sorted in ascending
+	 * order except that adjacent pairs of elements in t may be out of order.
+	 * Consider the following almost sorted lists:
+	 * 
+	 * <pre>
+	 * [1, 0]                1, 0 is out of order
+	 * [0, 2, 1]             2, 1 is out of order
+	 * [0, 2, 1, 3]          2, 1 is out of order
+	 * [0, 2, 1, 4, 3]       2, 1 and 4, 3 are out of order
+	 * [0, 1, 3, 2, 4]       3, 2 is out of order
+	 * </pre>
+	 * 
+	 * <p>
+	 * This method switches the positions of the out-of-order adjacent elements thus
+	 * repairing the list so that it is in sorted order.
+	 * 
+	 * @param t a list of almost sorted elements
+	 * 
+	 *          <pre>
+	 *  
+	 * t is sorted in ascending order except that adjacent pairs of elements 
+	 *       may be out of order
+	 *          </pre>
+	 */
+	public static void repair(List<Integer> t) {
+		// if the list has less than 2 elements then is already sorted
+
+		for (int i = 0; i < t.size() - 1; i++) {
+			int temp = t.get(i);
+			if (t.get(i) > t.get(i + 1)) {
+				t.set(i, t.get(i + 1));
+				t.set(i + 1, temp);
+			}
+		}
+	}
+
+//Ques 14
+
+	/**
+	 * Returns a new list of characters formed by shuffling the characters of the
+	 * given list. It is a precondition that the given list t contains at least two
+	 * elements, and that the number of elements is an even number. The list is not
+	 * modified by this method.
+	 * 
+	 * <p>
+	 * To shuffle the characters in t, imagine splitting the list t in half so that
+	 * the first (n / 2) characters of t are in one sublist, and the remaining (n /
+	 * 2) characters of t are in the second sublist. The new returned list is formed
+	 * by adding the first character of the first sublist to the new list, then
+	 * adding the first character of the second sublist, then adding the second
+	 * character of the first sublist, then adding the second character of the
+	 * second sublist, and so on, until all of the characters in the two sublists
+	 * are added to the new list.
+	 * 
+	 * <p>
+	 * For example, if t was the list:
+	 * 
+	 * <pre>
+	 * ['a', 'b', 'c', 'd', 'e', 'f']
+	 * </pre>
+	 * 
+	 * <p>
+	 * then splitting t into two sublists yields:
+	 * 
+	 * <pre>
+	 * ['a', 'b', 'c'] and ['d', 'e', 'f']
+	 * </pre>
+	 * 
+	 * <p>
+	 * Take the first two characters of each sublist and add them to the new list:
+	 * 
+	 * <pre>
+	 * ['a', 'd']
+	 * </pre>
+	 * 
+	 * <p>
+	 * Then take the next two characters of each sublist and add them to the new
+	 * list:
+	 * 
+	 * <pre>
+	 * ['a', 'd', 'b', 'e']
+	 * </pre>
+	 * 
+	 * <p>
+	 * Then take the next two characters of each sublist and add them to the new
+	 * list:
+	 * 
+	 * <pre>
+	 * ['a', 'd', 'b', 'e', 'c', 'f']
+	 * </pre>
+	 * 
+	 * @param t a non-null list of characters
+	 * @return a new list equal to the shuffle of the characters in t @pre. t is not
+	 *         null @pre. t.size() is greater than or equal to 2 @pre. t.size() is
+	 *         an even number
+	 */
+	public static List<Character> shuffle(List<Character> t) {
+		List<Character> a = new ArrayList<>();
+		for (int i = 0, j = t.size()/2; i < t.size() / 2 || j < t.size(); i++,j++) {
+			a.add(t.get(i));
+			a.add(t.get(j));
+		}
+		return a;
+
+	}
+
+	// Ques 15
+
+	/**
+	 * Replaces the elements of a list of angles in degrees with the equivalent
+	 * angles in radians. The size of the list remains unchanged.
+	 * 
+	 * @param t a list of angles in degrees
+	 */
+	public static void toRadians(List<Double> t) {
+		for (int i = 0; i < t.size(); i++) {
+			double angle = t.get(i);
+			double radian = Math.toRadians(angle);
+			t.set(i, radian);
+		}
+	}
+}
+
